@@ -11,19 +11,19 @@ public class UsuarioService {
     }
     
 	public void save(Usuario usuario) {
-		persistencia.save(usuario);
+		usuarioHSQL.save(usuario);
 	}
 
 	public void atualizar(Usuario usuario) {
-		persistencia.atualizar(usuario);
+		usuarioHSQL.atualizar(usuario);
 	}
 	
 	public List<Usuario> listar() {
-		return persistencia.listar();
+		return usuarioHSQL.listar();
 	}
 
 	public boolean remover(int id) {
-		return persistencia.remover(id);
+		return usuarioHSQL.remover(id);
 	}
 	
 	public void atualizarSenha(int id, String password) {

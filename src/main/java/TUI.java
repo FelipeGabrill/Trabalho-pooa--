@@ -5,9 +5,10 @@ public class TUI extends UI {
 	private Scanner scanner = new Scanner(System.in);
 	private UsuarioService usuarioService = new UsuarioService();
 	private ConteudoService conteudoService = new ConteudoService(new ConteudoHSQL());
+	private boolean escolhaCadastro = true;
 
 	public Usuario mostrarMenuLogin() {
-		while (true) {
+		while (escolhaCadastro) {
 		    System.out.println("Deseja fazer cadastro (y/n)? ");
 		    String escolha = scanner.next();
 
@@ -16,9 +17,11 @@ public class TUI extends UI {
 		        String username = scanner.next();
 		        System.out.println("Digite o password: ");
 		        String password = scanner.next();
-		        usuarioService.save(new Usuario(null, username, password));
+		        usuarioService.save(new Usuario(0, username, password));
+		        escolhaCadastro = false;
+
 		    } else if (escolha.equals("n")) {
-		        break;
+		        escolhaCadastro = false;
 		    } else {
 		        System.out.println("Opção inválida. Por favor, digite 'y' ou 'n'.");
 		    }
@@ -54,7 +57,7 @@ public class TUI extends UI {
 		String password = scanner.nextLine();
 		Usuario usuario = usuarioService.validarLogin(username, password);
 		if (usuario != null) {
-			return usuario;
+			mostrarMenuConteudo(usuario);
 		}
 		System.out.println("Login inválido.");
 		return null;
@@ -119,6 +122,7 @@ public class TUI extends UI {
 				break;
 			case 10:
 				continuarNoMenu = false;
+				mostrarMenuLogin();
 				break;
 			default:
 				System.out.println("Opção inválida.");
@@ -158,7 +162,7 @@ public class TUI extends UI {
 	private void criarUsuario() {
 		String username = lerInfo("Digite o username: ");
 		String password = lerInfo("Digite o password: ");
-		usuarioService.save(new Usuario(null, username, password));
+		usuarioService.save(new Usuario(0, username, password));
 	}
 	
 	private void listaUsuario() {

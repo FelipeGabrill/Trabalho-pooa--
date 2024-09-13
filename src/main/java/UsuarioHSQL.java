@@ -36,7 +36,7 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
 
 	public void criarTabela() {
 		String sql = "CREATE TABLE IF NOT EXISTS Usuario (" + "id INTEGER IDENTITY PRIMARY KEY, "
-				+ "username VARCHAR(255), " + "password VARCHAR(255) ";
+				+ "username VARCHAR(255), " + "password VARCHAR(255))";
 
 		try {
 			Connection conn = getConnection();
@@ -96,7 +96,7 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void atualizarSenha(Integer id, String password) {
 		String sql = "UPDATE Usuario SET password = ? WHERE id = ?";
 
@@ -131,7 +131,9 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
 
 		String sql = "SELECT * FROM Usuario WHERE username = ? AND password = ?";
 
-		try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try {
+			Connection conn = getConnection();
+			PreparedStatement stmt = conn.prepareStatement(sql);
 
 			stmt.setString(1, username);
 			stmt.setString(2, password);
