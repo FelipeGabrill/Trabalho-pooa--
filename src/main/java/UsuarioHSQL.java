@@ -112,7 +112,7 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
 	}
 
 	public boolean remover(int id) {
-		String sql = "DELETE FROM Conteudo WHERE id = ?";
+		String sql = "DELETE FROM Usuario WHERE id = ?";
 		boolean delete = false;
 		try {
 			Connection conn = getConnection();

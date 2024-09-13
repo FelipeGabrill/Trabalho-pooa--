@@ -13,10 +13,9 @@ public class TUI extends UI {
 		    String escolha = scanner.next();
 
 		    if (escolha.equals("y")) {
-		        System.out.println("Digite o username: ");
-		        String username = scanner.next();
-		        System.out.println("Digite o password: ");
-		        String password = scanner.next();
+		    	scanner.nextLine();
+		    	String username = lerInfo("Digite o usuario");
+		    	String password = lerInfo("Digite a senha");
 		        usuarioService.save(new Usuario(0, username, password));
 		        escolhaCadastro = false;
 
@@ -28,15 +27,16 @@ public class TUI extends UI {
 		}
 
 		while (true) {
-			System.out.println("1. Login:");
-			System.out.println("2. Listar Conteúdos:");
-			System.out.println("3. Sair:");
+			System.out.println("1. Login: ");
+			System.out.println("2. Listar Conteúdos: ");
+			System.out.println("3. Sair: ");
 			System.out.print("Escolha uma opção: ");
 			int opcao = scanner.nextInt();
 			scanner.nextLine();
 			switch (opcao) {
 			case 1:
-				return realizarLogin();
+				 realizarLogin();
+				 break;
 			case 2:
 				listarConteudo();
 				break;
@@ -50,17 +50,15 @@ public class TUI extends UI {
 		}
 	}
 
-	private Usuario realizarLogin() {
-		System.out.print("Digite o username: ");
-		String username = scanner.nextLine();
-		System.out.print("Digite o password: ");
-		String password = scanner.nextLine();
+	private void realizarLogin() {
+		String username = lerInfo("Digite o usuario");
+		String password = lerInfo("Digite a senha");
 		Usuario usuario = usuarioService.validarLogin(username, password);
 		if (usuario != null) {
 			mostrarMenuConteudo(usuario);
+		} else {
+			System.out.println("Login inválido.");
 		}
-		System.out.println("Login inválido.");
-		return null;
 	}
 
 	private void listarConteudo() {
@@ -160,8 +158,8 @@ public class TUI extends UI {
 	}
 	
 	private void criarUsuario() {
-		String username = lerInfo("Digite o username: ");
-		String password = lerInfo("Digite o password: ");
+		String username = lerInfo("Digite o username");
+		String password = lerInfo("Digite o password");
 		usuarioService.save(new Usuario(0, username, password));
 	}
 	
@@ -172,8 +170,8 @@ public class TUI extends UI {
 	}
 	
 	private void alterarUsuario(Usuario currentUser) {
-		String username = lerInfo("Digite o novo username: ");
-		String password = lerInfo("Digite a novo senha: ");
+		String username = lerInfo("Digite o novo username");
+		String password = lerInfo("Digite a novo senha");
 		usuarioService.atualizar(new Usuario(currentUser.getId(), username, password));
 		System.out.println("Usuario Atualizado.");
 	}
@@ -188,7 +186,7 @@ public class TUI extends UI {
 	}
 	
 	private void alterarSenhaUsuario(Usuario currentUser) {		
-		String novaPassword = lerInfo("Digite a nova senha: ");
+		String novaPassword = lerInfo("Digite a nova senha");
 		usuarioService.atualizarSenha(currentUser.getId(), novaPassword);
 		System.out.println("Senha Atualizada.");
 	}
