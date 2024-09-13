@@ -2,32 +2,37 @@ import java.util.List;
 
 public class UsuarioService {
 	
-	UsuarioHSQL usuarioHSQL = new UsuarioHSQL();
+	UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
 	
 	private Persistencia<Usuario> persistencia;
-	
+
+	public UsuarioService(UsuarioRepositorio usuarioRepositorio, Persistencia<Usuario> persistencia) {
+		this.usuarioRepositorio = usuarioRepositorio;
+		this.persistencia = persistencia;
+	}
+
 	public Usuario validarLogin(String username, String password) {
-        return usuarioHSQL.encontrarPorCredenciais(username, password);
+        return usuarioRepositorio.validarLogin(username, password);
     }
     
 	public void save(Usuario usuario) {
-		usuarioHSQL.save(usuario);
+		persistencia.save(usuario);
 	}
 
 	public void atualizar(Usuario usuario) {
-		usuarioHSQL.atualizar(usuario);
+		persistencia.atualizar(usuario);
 	}
 	
 	public List<Usuario> listar() {
-		return usuarioHSQL.listar();
+		return persistencia.listar();
 	}
 
 	public boolean remover(int id) {
-		return usuarioHSQL.remover(id);
+		return persistencia.remover(id);
 	}
 	
 	public void atualizarSenha(int id, String password) {
-		usuarioHSQL.atualizarSenha(id, password);
+		usuarioRepositorio.atualizarSenha(id, password);
 	}
 
 }

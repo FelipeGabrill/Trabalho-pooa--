@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class TUI extends UI {
 
 	private Scanner scanner = new Scanner(System.in);
-	private UsuarioService usuarioService = new UsuarioService();
+	private UsuarioService usuarioService = new UsuarioService(new UsuarioRepositorio(), new UsuarioHSQL());
 	private ConteudoService conteudoService = new ConteudoService(new ConteudoHSQL());
 	private boolean escolhaCadastro = true;
 
