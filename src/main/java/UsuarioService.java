@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class UsuarioService {
+public class UsuarioService implements Persistencia<Usuario>{
 	
 	UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
 	
@@ -15,18 +15,22 @@ public class UsuarioService {
         return usuarioRepositorio.validarLogin(username, password);
     }
     
+	@Override
 	public void save(Usuario usuario) {
 		persistencia.save(usuario);
 	}
 
+	@Override
 	public void atualizar(Usuario usuario) {
 		persistencia.atualizar(usuario);
 	}
 	
+	@Override
 	public List<Usuario> listar() {
 		return persistencia.listar();
 	}
 
+	@Override
 	public boolean remover(int id) {
 		return persistencia.remover(id);
 	}

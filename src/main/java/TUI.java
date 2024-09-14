@@ -9,21 +9,19 @@ public class TUI extends UI {
 
 	public Usuario mostrarMenuLogin() {
 		while (escolhaCadastro) {
-		    System.out.println("Deseja fazer cadastro (y/n)? ");
-		    String escolha = scanner.next();
+			String escolha = lerInfo("Deseja fazer cadastro (y/n)");
 
-		    if (escolha.equals("y")) {
-		    	scanner.nextLine();
-		    	String username = lerInfo("Digite o usuario");
-		    	String password = lerInfo("Digite a senha");
-		        usuarioService.save(new Usuario(0, username, password));
-		        escolhaCadastro = false;
+			if (escolha.equals("y")) {
+				String username = lerInfo("Digite o usuario");
+				String password = lerInfo("Digite a senha");
+				usuarioService.save(new Usuario(0, username, password));
+				escolhaCadastro = false;
 
-		    } else if (escolha.equals("n")) {
-		        escolhaCadastro = false;
-		    } else {
-		        System.out.println("Opção inválida. Por favor, digite 'y' ou 'n'.");
-		    }
+			} else if (escolha.equals("n")) {
+				escolhaCadastro = false;
+			} else {
+				System.out.println("Opção inválida. Por favor, digite 'y' ou 'n'.");
+			}
 		}
 
 		while (true) {
@@ -31,16 +29,16 @@ public class TUI extends UI {
 			System.out.println("2. Listar Conteúdos: ");
 			System.out.println("3. Sair: ");
 			System.out.print("Escolha uma opção: ");
-			int opcao = scanner.nextInt();
+			String opcao = scanner.next();
 			scanner.nextLine();
 			switch (opcao) {
-			case 1:
-				 realizarLogin();
-				 break;
-			case 2:
+			case "1":
+				Usuario usuario = realizarLogin();
+				return usuario;
+			case "2":
 				listarConteudo();
 				break;
-			case 3:
+			case "3":
 				scanner.close();
 				System.exit(0);
 				break;
@@ -50,14 +48,15 @@ public class TUI extends UI {
 		}
 	}
 
-	private void realizarLogin() {
+	private Usuario realizarLogin() {
 		String username = lerInfo("Digite o usuario");
 		String password = lerInfo("Digite a senha");
 		Usuario usuario = usuarioService.validarLogin(username, password);
 		if (usuario != null) {
-			mostrarMenuConteudo(usuario);
+			return usuario;
 		} else {
 			System.out.println("Login inválido.");
+			return null;
 		}
 	}
 
@@ -86,49 +85,49 @@ public class TUI extends UI {
 			System.out.println("9. Alterar Senha:");
 			System.out.println("10. Logout:");
 			System.out.print("Escolha uma opção: ");
-			int opcao = scanner.nextInt();
+			String opcao = scanner.next();
 			scanner.nextLine();
 
 			switch (opcao) {
-			case 1:
+			case "1":
 				criarConteudo(currentUser);
 				break;
-			case 2:
+			case "2":
 				listarConteudo();
 				break;
-			case 3:
+			case "3":
 				atualizarConteudo(currentUser);
 				break;
-			case 4:
+			case "4":
 				excluirConteudo();
 				break;
-			case 5:
+			case "5":
 				criarUsuario();
 				break;
-			case 6:
+			case "6":
 				listaUsuario();
 				break;
-			case 7:
+			case "7":
 				alterarUsuario(currentUser);
 				break;
-			case 8:
+			case "8":
 				exclirUsuario(currentUser);
 				continuarNoMenu = false;
 				break;
-			case 9:
+			case "9":
 				alterarSenhaUsuario(currentUser);
 				break;
-			case 10:
+			case "10":
+				currentUser = null;
 				continuarNoMenu = false;
-				mostrarMenuLogin();
 				break;
 			default:
 				System.out.println("Opção inválida.");
 			}
 		}
 		return currentUser;
-	}	
-	
+	}
+
 	private void criarConteudo(Usuario currentUser) {
 		String titulo = lerInfo("Digite o Titulo");
 		String texto = lerInfo("Digite o Texto");
@@ -156,26 +155,26 @@ public class TUI extends UI {
 			System.out.println("Conteudo não encontrado.");
 		}
 	}
-	
+
 	private void criarUsuario() {
 		String username = lerInfo("Digite o username");
 		String password = lerInfo("Digite o password");
 		usuarioService.save(new Usuario(0, username, password));
 	}
-	
+
 	private void listaUsuario() {
 		for (Usuario usuario : usuarioService.listar()) {
 			System.out.println(usuario);
 		}
 	}
-	
+
 	private void alterarUsuario(Usuario currentUser) {
 		String username = lerInfo("Digite o novo username");
 		String password = lerInfo("Digite a novo senha");
 		usuarioService.atualizar(new Usuario(currentUser.getId(), username, password));
 		System.out.println("Usuario Atualizado.");
 	}
-	
+
 	private void exclirUsuario(Usuario currentUser) {
 		boolean removido = usuarioService.remover(currentUser.getId());
 		if (removido) {
@@ -184,11 +183,11 @@ public class TUI extends UI {
 			System.out.println("Conteudo não encontrado.");
 		}
 	}
-	
-	private void alterarSenhaUsuario(Usuario currentUser) {		
+
+	private void alterarSenhaUsuario(Usuario currentUser) {
 		String novaPassword = lerInfo("Digite a nova senha");
 		usuarioService.atualizarSenha(currentUser.getId(), novaPassword);
 		System.out.println("Senha Atualizada.");
 	}
-	
+
 }
