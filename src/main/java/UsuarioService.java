@@ -1,10 +1,11 @@
 import java.util.List;
 
-public class UsuarioService implements Persistencia<Usuario>{
+public class UsuarioService {
+	
+	private Persistencia<Usuario> persistencia;
 	
 	UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
 	
-	private Persistencia<Usuario> persistencia;
 
 	public UsuarioService(UsuarioRepositorio usuarioRepositorio, Persistencia<Usuario> persistencia) {
 		this.usuarioRepositorio = usuarioRepositorio;
@@ -15,22 +16,18 @@ public class UsuarioService implements Persistencia<Usuario>{
         return usuarioRepositorio.validarLogin(username, password);
     }
     
-	@Override
 	public void save(Usuario usuario) {
 		persistencia.save(usuario);
 	}
 
-	@Override
-	public void atualizar(Usuario usuario) {
-		persistencia.atualizar(usuario);
+	public void atualizar(int id, String username, String password) {
+		persistencia.atualizar(new Usuario(id, username, password));
 	}
 	
-	@Override
 	public List<Usuario> listar() {
 		return persistencia.listar();
 	}
 
-	@Override
 	public boolean remover(int id) {
 		return persistencia.remover(id);
 	}

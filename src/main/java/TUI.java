@@ -5,24 +5,12 @@ public class TUI extends UI {
 	private Scanner scanner = new Scanner(System.in);
 	private UsuarioService usuarioService = new UsuarioService(new UsuarioRepositorio(), new UsuarioHSQL());
 	private ConteudoService conteudoService = new ConteudoService(new ConteudoHSQL());
-	private boolean escolhaCadastro = true;
 
 	public Usuario mostrarMenuLogin() {
-		while (escolhaCadastro) {
-			String escolha = lerInfo("Deseja fazer cadastro (y/n)");
-
-			if (escolha.equals("y")) {
-				String username = lerInfo("Digite o usuario");
-				String password = lerInfo("Digite a senha");
-				usuarioService.save(new Usuario(0, username, password));
-				escolhaCadastro = false;
-
-			} else if (escolha.equals("n")) {
-				escolhaCadastro = false;
-			} else {
-				System.out.println("Opção inválida. Por favor, digite 'y' ou 'n'.");
-			}
-		}
+		System.out.println("Cadastre o primeiro usuario");
+		String username = lerInfo("Digite o usuario");
+		String password = lerInfo("Digite a senha");
+		usuarioService.save(new Usuario(0, username, password));
 
 		while (true) {
 			System.out.println("1. Login: ");
@@ -72,8 +60,7 @@ public class TUI extends UI {
 	}
 
 	public Usuario mostrarMenuConteudo(Usuario currentUser) {
-		boolean continuarNoMenu = true;
-		while (continuarNoMenu) {
+		while (true) {
 			System.out.println("1. Criar Conteúdo:");
 			System.out.println("2. Listar Conteúdo:");
 			System.out.println("3. Atualizar Conteúdo:");
@@ -112,20 +99,16 @@ public class TUI extends UI {
 				break;
 			case "8":
 				exclirUsuario(currentUser);
-				continuarNoMenu = false;
 				break;
 			case "9":
 				alterarSenhaUsuario(currentUser);
 				break;
 			case "10":
-				currentUser = null;
-				continuarNoMenu = false;
-				break;
+				return currentUser = null;
 			default:
 				System.out.println("Opção inválida.");
 			}
 		}
-		return currentUser;
 	}
 
 	private void criarConteudo(Usuario currentUser) {
@@ -169,14 +152,20 @@ public class TUI extends UI {
 	}
 
 	private void alterarUsuario(Usuario currentUser) {
+		listaUsuario();
+		String ids = lerInfo("Digite o ID do usuario para editar");
+		int id = Integer.parseInt(ids);
 		String username = lerInfo("Digite o novo username");
 		String password = lerInfo("Digite a novo senha");
-		usuarioService.atualizar(new Usuario(currentUser.getId(), username, password));
+		usuarioService.atualizar(id, username, password);
 		System.out.println("Usuario Atualizado.");
 	}
 
 	private void exclirUsuario(Usuario currentUser) {
-		boolean removido = usuarioService.remover(currentUser.getId());
+		listaUsuario();
+		String ids = lerInfo("Digite o ID do usuario para editar");
+		int id = Integer.parseInt(ids);
+		boolean removido = usuarioService.remover(id);
 		if (removido) {
 			System.out.println("Conteudo excluido.");
 		} else {
@@ -189,5 +178,4 @@ public class TUI extends UI {
 		usuarioService.atualizarSenha(currentUser.getId(), novaPassword);
 		System.out.println("Senha Atualizada.");
 	}
-
 }
