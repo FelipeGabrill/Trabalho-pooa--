@@ -71,6 +71,7 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				Usuario usuario = new Usuario();
+				usuario.setId(rs.getInt("id"));
 				usuario.setUsername(rs.getString("username"));
 				usuario.setPassword(rs.getString("password"));
 				usuarios.add(usuario);

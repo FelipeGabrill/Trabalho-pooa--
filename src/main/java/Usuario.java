@@ -40,7 +40,7 @@ public class Usuario {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Usuario [username=").append(username).append(", password= ********").append("]");
+		builder.append("Usuario [id= ").append(id).append(", username= ").append(username).append(", password= ********").append("]");
 		return builder.toString();
 	}
     

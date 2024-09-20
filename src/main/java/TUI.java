@@ -5,12 +5,16 @@ public class TUI extends UI {
 	private Scanner scanner = new Scanner(System.in);
 	private UsuarioService usuarioService = new UsuarioService(new UsuarioRepositorio(), new UsuarioHSQL());
 	private ConteudoService conteudoService = new ConteudoService(new ConteudoHSQL());
+	private boolean firstUser = true;
 
 	public Usuario mostrarMenuLogin() {
-		System.out.println("Cadastre o primeiro usuario");
-		String username = lerInfo("Digite o usuario");
-		String password = lerInfo("Digite a senha");
-		usuarioService.save(new Usuario(0, username, password));
+		if(firstUser) {
+			System.out.println("Cadastre o primeiro usuario");
+			String username = lerInfo("Digite o usuario");
+			String password = lerInfo("Digite a senha");
+			usuarioService.save(new Usuario(0, username, password));
+			firstUser = false;
+		}
 
 		while (true) {
 			System.out.println("1. Login: ");
