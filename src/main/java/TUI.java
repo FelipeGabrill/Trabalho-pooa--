@@ -4,7 +4,7 @@ public class TUI extends UI {
 
 	private Scanner scanner = new Scanner(System.in);
 	private UsuarioList usuarioService = new UsuarioList();
-	private ConteudoService conteudoService = new ConteudoService(new ConteudoHSQL());
+	private ConteudoList conteudoService = new ConteudoList();
 	private boolean firstUser = true;
 
 	public Usuario mostrarMenuLogin() {
@@ -53,7 +53,7 @@ public class TUI extends UI {
 	}
 
 	private void listarConteudo() {
-		for (Conteudo conteudo : conteudoService.listarConteudos()) {
+		for (Conteudo conteudo : conteudoService.listar()) {
 			System.out.println(conteudo);
 		}
 	}
@@ -128,14 +128,15 @@ public class TUI extends UI {
 		int id = Integer.parseInt(ids);
 		String titulo = lerInfo("Digite o Titulo");
 		String texto = lerInfo("Digite o Texto");
-		conteudoService.atualizarConteudo(id, titulo, texto, currentUser);
+		Conteudo conteudoParaAtualizar = new Conteudo(id, titulo, texto, currentUser);
+		conteudoService.atualizar(conteudoParaAtualizar);
 		System.out.println("Conteudo Atualizado.");
 	}
 
 	private void excluirConteudo() {
 		String ids = lerInfo("Digite o ID do conteudo para excluir");
 		int id = Integer.parseInt(ids);
-		boolean removido = conteudoService.removerConteudo(id);
+		boolean removido = conteudoService.remover(id);
 		if (removido) {
 			System.out.println("Conteudo excluido.");
 		} else {

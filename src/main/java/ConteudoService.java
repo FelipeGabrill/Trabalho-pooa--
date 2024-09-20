@@ -1,32 +1,28 @@
 
 import java.util.List;
 
-public class ConteudoService {
-	
+public class ConteudoService implements Persistencia<Conteudo>{
 
-	private Persistencia<Conteudo> persistencia;
-
-    public ConteudoService(Persistencia<Conteudo> persistencia) {
-		this.persistencia = persistencia;
+	public ConteudoService() {		
 	}
 
+    @Override
 	public void save(Conteudo conteudo) {
-		persistencia.save(conteudo);
+		save(conteudo);
     }
     
-	public void atualizarConteudo(int id, String titulo, String texto, Usuario autor) {
-		persistencia.atualizar(new Conteudo(id, titulo, texto, autor));
+    @Override
+	public void atualizar(Conteudo conteudo) {
+		atualizar(conteudo);
     }
 
-	public List<Conteudo> listarConteudos() {
-		return persistencia.listar();
+    @Override
+	public List<Conteudo> listar() {
+		return listar();
     }
 
-	public boolean removerConteudo(int id) {
-		return persistencia.remover(id);
+    @Override
+	public boolean remover(int id) {
+		return remover(id);
     }
-
-	
-
-
 }
