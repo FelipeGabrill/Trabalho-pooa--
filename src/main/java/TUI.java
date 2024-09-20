@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class TUI extends UI {
 
 	private Scanner scanner = new Scanner(System.in);
-	private UsuarioService usuarioService = new UsuarioService(new UsuarioRepositorio(), new UsuarioHSQL());
+	private UsuarioList usuarioService = new UsuarioList();
 	private ConteudoService conteudoService = new ConteudoService(new ConteudoHSQL());
 	private boolean firstUser = true;
 
@@ -161,7 +161,8 @@ public class TUI extends UI {
 		int id = Integer.parseInt(ids);
 		String username = lerInfo("Digite o novo username");
 		String password = lerInfo("Digite a novo senha");
-		usuarioService.atualizar(id, username, password);
+		Usuario usuarioParaAtualizar = new Usuario(id, username, password);
+		usuarioService.atualizar(usuarioParaAtualizar);
 		System.out.println("Usuario Atualizado.");
 	}
 

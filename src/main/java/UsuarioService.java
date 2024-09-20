@@ -1,39 +1,40 @@
 import java.util.List;
 
-public class UsuarioService {
+public class UsuarioService implements Persistencia<Usuario>  {
 	
-	private Persistencia<Usuario> persistencia;
+	private UsuarioHSQL usuarioHSQL = new UsuarioHSQL();
 	
-	UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
 	
-
-	public UsuarioService(UsuarioRepositorio usuarioRepositorio, Persistencia<Usuario> persistencia) {
-		this.usuarioRepositorio = usuarioRepositorio;
-		this.persistencia = persistencia;
+	public UsuarioService(UsuarioHSQL usuarioHSQL) {
+		this.usuarioHSQL = usuarioHSQL;
 	}
 
 	public Usuario validarLogin(String username, String password) {
-        return usuarioRepositorio.validarLogin(username, password);
+		return usuarioHSQL.encontrarPorCredenciais(username, password);
     }
     
+	@Override
 	public void save(Usuario usuario) {
-		persistencia.save(usuario);
+		save(usuario);
 	}
 
-	public void atualizar(int id, String username, String password) {
-		persistencia.atualizar(new Usuario(id, username, password));
+	@Override
+	public void atualizar(Usuario usuario) {
+		atualizar(usuario);
 	}
 	
+	@Override
 	public List<Usuario> listar() {
-		return persistencia.listar();
+		return listar();
 	}
 
+	@Override
 	public boolean remover(int id) {
-		return persistencia.remover(id);
+		return remover(id);
 	}
 	
 	public void atualizarSenha(int id, String password) {
-		usuarioRepositorio.atualizarSenha(id, password);
+		usuarioHSQL.atualizarSenha(id, password);
 	}
 
 }

@@ -7,6 +7,15 @@ public class UsuarioList implements Persistencia<Usuario> {
 	private List<Usuario> usuarios = new ArrayList<>();
 	private int count = 1;
 
+	public Usuario validarLogin(String username, String password) {
+	    for (Usuario usuario : usuarios) {
+	        if (usuario.getUsername().equals(username) && usuario.getPassword().equals(password)) {
+	            return usuario;
+	        }
+	    }
+	    return null; 
+	}
+	
 	@Override
 	public void save(Usuario usuario) {
 		if (usuario.getId() == null) {
@@ -34,15 +43,6 @@ public class UsuarioList implements Persistencia<Usuario> {
 	@Override
 	public boolean remover(int id) {
 		return usuarios.removeIf(usuario -> usuario.getId() == id);
-	}
-	
-	public Usuario validarLogin(String username, String password) {
-	    for (Usuario usuario : usuarios) {
-	        if (usuario.getUsername().equals(username) && usuario.getPassword().equals(password)) {
-	            return usuario;
-	        }
-	    }
-	    return null; 
 	}
 	
 	public void atualizarSenha(int id, String novaSenha) {
