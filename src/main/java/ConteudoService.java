@@ -1,28 +1,31 @@
 
 import java.util.List;
 
-public class ConteudoService implements Persistencia<Conteudo>{
+public class ConteudoService implements Persistencia<Conteudo> {
 
-	public ConteudoService() {		
+	private Persistencia<Conteudo> persistencia;
+
+	public ConteudoService(ConteudoHSQL conteudoHSQL) {
+		this.persistencia = conteudoHSQL;
 	}
 
-    @Override
+	@Override
 	public void save(Conteudo conteudo) {
-		save(conteudo);
-    }
-    
-    @Override
+		persistencia.save(conteudo);
+	}
+
+	@Override
 	public void atualizar(Conteudo conteudo) {
-		atualizar(conteudo);
-    }
+		persistencia.atualizar(conteudo);
+	}
 
-    @Override
+	@Override
 	public List<Conteudo> listar() {
-		return listar();
-    }
+		return persistencia.listar();
+	}
 
-    @Override
+	@Override
 	public boolean remover(int id) {
-		return remover(id);
-    }
+		return persistencia.remover(id);
+	}
 }

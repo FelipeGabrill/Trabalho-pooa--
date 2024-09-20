@@ -53,7 +53,7 @@ public class Conteudo {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Conteudo [id=").append(id).append(", titulo=").append(titulo).append(", texto=").append(texto)
-				.append(", autor=").append(autor).append("]");
+				.append(", Autor [autor=").append(autor.getUsername()).append(", password= ********").append("]]");
 		return builder.toString();
 	}
     

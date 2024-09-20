@@ -18,7 +18,7 @@ public class UsuarioList implements Persistencia<Usuario> {
 	
 	@Override
 	public void save(Usuario usuario) {
-		if (usuario.getId() == null) {
+		if (usuario.getId() == 0) {
 			usuario.setId(count++);
 		}
 		usuarios.add(usuario);
