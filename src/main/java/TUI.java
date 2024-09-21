@@ -3,16 +3,19 @@ import java.util.Scanner;
 public class TUI extends UI {
 
 	private Scanner scanner = new Scanner(System.in);
-	private UsuarioList usuarioService = new UsuarioList();
-	private ConteudoList conteudoService = new ConteudoList();
-	private boolean firstUser = true;
+	private UsuarioService usuarioPersistir = new UsuarioService(new UsuarioHSQL());
+	private ConteudoService conteudoPersistir = new ConteudoService(new ConteudoHSQL());
+	//private UsuarioList usuarioPersistir = new UsuarioList();
+	//private ConteudoList conteudoPersistir = new ConteudoList();
+	private boolean firstUser = true;	
 
 	public Usuario mostrarMenuLogin() {
+		
 		if(firstUser) {
 			System.out.println("Cadastre o primeiro usuario");
 			String username = lerInfo("Digite o usuario");
 			String password = lerInfo("Digite a senha");
-			usuarioService.save(new Usuario(0, username, password));
+			usuarioPersistir.save(new Usuario(0, username, password));
 			firstUser = false;
 		}
 
@@ -43,7 +46,7 @@ public class TUI extends UI {
 	private Usuario realizarLogin() {
 		String username = lerInfo("Digite o usuario");
 		String password = lerInfo("Digite a senha");
-		Usuario usuario = usuarioService.validarLogin(username, password);
+		Usuario usuario = usuarioPersistir.validarLogin(username, password);
 		if (usuario != null) {
 			return usuario;
 		} else {
@@ -53,7 +56,7 @@ public class TUI extends UI {
 	}
 
 	private void listarConteudo() {
-		for (Conteudo conteudo : conteudoService.listar()) {
+		for (Conteudo conteudo : conteudoPersistir.listar()) {
 			System.out.println(conteudo);
 		}
 	}
@@ -119,7 +122,7 @@ public class TUI extends UI {
 		String titulo = lerInfo("Digite o Titulo");
 		String texto = lerInfo("Digite o Texto");
 		Conteudo conteudo = new Conteudo(null, titulo, texto, currentUser);
-		conteudoService.save(conteudo);
+		conteudoPersistir.save(conteudo);
 		System.out.println("Conteudo criado!");
 	}
 
@@ -129,14 +132,14 @@ public class TUI extends UI {
 		String titulo = lerInfo("Digite o Titulo");
 		String texto = lerInfo("Digite o Texto");
 		Conteudo conteudoParaAtualizar = new Conteudo(id, titulo, texto, currentUser);
-		conteudoService.atualizar(conteudoParaAtualizar);
+		conteudoPersistir.atualizar(conteudoParaAtualizar);
 		System.out.println("Conteudo Atualizado.");
 	}
 
 	private void excluirConteudo() {
 		String ids = lerInfo("Digite o ID do conteudo para excluir");
 		int id = Integer.parseInt(ids);
-		boolean removido = conteudoService.remover(id);
+		boolean removido = conteudoPersistir.remover(id);
 		if (removido) {
 			System.out.println("Conteudo excluido.");
 		} else {
@@ -147,11 +150,11 @@ public class TUI extends UI {
 	private void criarUsuario() {
 		String username = lerInfo("Digite o username");
 		String password = lerInfo("Digite o password");
-		usuarioService.save(new Usuario(0, username, password));
+		usuarioPersistir.save(new Usuario(0, username, password));
 	}
 
 	private void listaUsuario() {
-		for (Usuario usuario : usuarioService.listar()) {
+		for (Usuario usuario : usuarioPersistir.listar()) {
 			System.out.println(usuario);
 		}
 	}
@@ -163,7 +166,7 @@ public class TUI extends UI {
 		String username = lerInfo("Digite o novo username");
 		String password = lerInfo("Digite a novo senha");
 		Usuario usuarioParaAtualizar = new Usuario(id, username, password);
-		usuarioService.atualizar(usuarioParaAtualizar);
+		usuarioPersistir.atualizar(usuarioParaAtualizar);
 		System.out.println("Usuario Atualizado.");
 	}
 
@@ -171,7 +174,7 @@ public class TUI extends UI {
 		listaUsuario();
 		String ids = lerInfo("Digite o ID do usuario para editar");
 		int id = Integer.parseInt(ids);
-		boolean removido = usuarioService.remover(id);
+		boolean removido = usuarioPersistir.remover(id);
 		if (removido) {
 			System.out.println("Conteudo excluido.");
 		} else {
@@ -181,7 +184,7 @@ public class TUI extends UI {
 
 	private void alterarSenhaUsuario(Usuario currentUser) {
 		String novaPassword = lerInfo("Digite a nova senha");
-		usuarioService.atualizarSenha(currentUser.getId(), novaPassword);
+		usuarioPersistir.atualizarSenha(currentUser.getId(), novaPassword);
 		System.out.println("Senha Atualizada.");
 	}
 }
