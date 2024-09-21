@@ -1,62 +1,78 @@
-# Sistema de Gestão de Conteúdo (CMS) - Disciplina de POOA
+# Descrição
 
-Este repositório contém o código desenvolvido para a disciplina de Programação Orientada a Objetos Avançada (POOA). O projeto consiste na criação de um Sistema de Gestão de Conteúdo (CMS) em Java, que será evoluído ao longo do curso para aplicar conceitos avançados de programação orientada a objetos.
+Este projeto é uma aplicação Java que implementa uma interface de usuário baseada em texto (TUI - Text User Interface) para gerenciar usuários e conteúdos.
 
-## Estrutura de Versões
+## Funcionalidades
 
-O projeto está organizado em diferentes versões para refletir as fases de desenvolvimento 
-e aplicação dos conceitos aprendidos:
+- Cadastro de Usuário
+- Login
+- Listagem de Conteúdos
+- Criação, Atualização e Exclusão de Conteúdos
+- Gerenciamento de Usuários
+- Alteração de Senha
 
-### Versão 1.0.0 - CMS Estruturado no Terminal
+### Tipos de Persistência
 
-- **Descrição:** Implementação inicial do CMS com estrutura simples e procedural.
-- **Funcionalidades:**
-  - Autenticação básica de usuário.
-  - Criação, listagem, atualização e exclusão de conteúdos.
-  - Interface de usuário via terminal.
-- **Uso:** Para executar, compile o código e execute o arquivo `Main.java`.
+A aplicação suporta dois tipos de persistência de dados:
 
-### Versão 1.0.1 - CMS Ajustado para Maven
+HSQL (HyperSQL Database):
+Utiliza um banco de dados relacional em memória que pode ser persistido em disco.
+Ideal para aplicações que necessitam de um sistema de gerenciamento de banco de dados mais robusto, permitindo consultas SQL e suporte a transações.
+Para utilizar esta forma de persistência, as seguintes linhas devem ser utilizadas na classe TUI:
 
-- **Descrição:** Ajuste do código para uso do Maven como ferramenta de build.
-- **Funcionalidades Adicionais:**
-  - Estruturação do projeto como um projeto Maven.
-  - Adição de `pom.xml` para gerenciamento de dependências e build.
-- **Uso:** Execute `mvn clean install` para compilar e `mvn exec:java` para rodar a aplicação.
 
-### Versão 2.0.1 - Aplicando o Princípio S do SOLID (Responsabilidade Única)
+```java
+  private UsuarioService usuarioPersistir = new UsuarioService(new UsuarioHSQL());
+  private ConteudoService conteudoPersistir = new ConteudoService(new ConteudoHSQL());
+  // private UsuarioList usuarioPersistir = new UsuarioList();
+  // private ConteudoList conteudoPersistir = new ConteudoList();
+}
+```
 
-- **Descrição:** Refatoração do CMS para aplicar o princípio da responsabilidade única (Single Responsibility Principle - SRP).
-- **Modificações:**
-  - Separação das responsabilidades em classes distintas.
-  - A classe `Main` apenas controla o fluxo da aplicação.
-  - A gestão de usuários, conteúdos e autenticação é delegada a classes específicas.
+Memória (In-Memory):
+Utiliza estruturas de dados em memória para armazenar usuários e conteúdos.
+É uma solução mais simples e rápida, adequada para testes ou aplicações que não exigem persistência de dados entre execuções.
+Para utilizar esta forma de persistência, as seguintes linhas devem ser utilizadas na classe TUI:
 
-### Versão 2.0.2 - Aplicando o Princípio O do SOLID (Aberto/Fechado)
+```java
+  //private UsuarioService usuarioPersistir = new UsuarioService(new UsuarioHSQL());
+  //private ConteudoService conteudoPersistir = new ConteudoService(new ConteudoHSQL());
+  private UsuarioList usuarioPersistir = new UsuarioList();
+  private ConteudoList conteudoPersistir = new ConteudoList();
+}
+```
 
-- **Descrição:** Refatoração do CMS para aplicar o princípio Aberto/Fechado (Open/Closed Principle - OCP).
-- **Modificações:**
-  - O código foi modificado para permitir a extensão de funcionalidades sem necessidade de modificação do código existente.
-  - Introdução de interfaces e abstrações.
+### Métodos Principais
 
-### Versão 2.0.3 - Aplicando o Princípio L do SOLID (Substituição de Liskov)
+- Menu Inicial (acessível ao público)
+- Login: Permite ao usuário fazer login no sistema.
+- Listar Conteúdos: Exibe a lista de conteúdos disponíveis.
+- Sair: Encerra a aplicação.
+- Menu Após Login (acessível apenas após autenticação)
+- Criar Conteúdo: Permite criar um novo conteúdo.
+- Listar Conteúdo: Exibe a lista de conteúdos.
+- Atualizar Conteúdo: Permite editar um conteúdo existente.
+- Excluir Conteúdo: Permite deletar um conteúdo.
+- Criar Usuário: Permite criar um novo usuário.
+- Listar Usuários: Exibe a lista de usuários.
+- Alterar Usuário: Permite editar informações de um usuário.
+- Excluir Usuário: Permite deletar um usuário.
+- Alterar Senha: Permite ao usuário logado alterar sua própria senha.
+- Logout: Faz logout do sistema.
 
-- **Descrição:** Refatoração do CMS para aplicar o princípio da Substituição de Liskov (Liskov Substitution Principle - LSP).
-- **Modificações:**
-  - A refatoração garante que as subclasses possam substituir suas classes base sem afetar a corretude do programa.
-  - Introdução de uma hierarquia de classes que respeita o LSP.
 
-### Versão 2.0.4 - Aplicando o Princípio I do SOLID (Segregação de Interfaces)
+### Como Executar
 
-- **Descrição:** Refatoração do CMS para aplicar o princípio da Segregação de Interfaces (Interface Segregation Principle - ISP).
-- **Modificações:**
-  - As interfaces foram segregadas para garantir que as classes dependam apenas dos métodos que utilizam.
-  - Introdução de interfaces mais específicas.
+-- Pré-requisitos: Verifique se o Java JDK e o Maven estão instalados em seu sistema.
+-- Clone o repositório: Baixe o código do projeto para sua máquina.
+-- Abra o projeto em um IDE: Use um ambiente de desenvolvimento integrado como IntelliJ IDEA ou Eclipse.
+-- Limpe e instale a aplicação: Utilize a funcionalidade do Maven na sua IDE para realizar um "clean" e "install".
+-- Execute a aplicação.
 
-### Versão 2.0.5 - Aplicando o Princípio D do SOLID (Inversão de Dependência)
+### Aplicação dos Princípios SOLID
 
-- **Descrição:** Refatoração do CMS para aplicar o princípio da Inversão de Dependência (Dependency Inversion Principle - DIP).
-- **Modificações:**
-  - As dependências de alto nível não dependem mais de módulos de baixo nível.
-  - Introdução de injeção de dependências para gerir as instâncias das classes.
-
+S (Single Responsibility Principle): Cada classe deve ter uma única responsabilidade bem definida.
+O (Open/Closed Principle): O código deve ser aberto para extensão, mas fechado para modificação.
+L (Liskov Substitution Principle): Objetos de uma superclasse devem poder ser substituídos por objetos de subclasses sem quebrar a aplicação.
+I (Interface Segregation Principle): Muitas interfaces específicas são melhores do que uma única interface geral.
+D (Dependency Inversion Principle): Depender de abstrações, não de implementações. 
