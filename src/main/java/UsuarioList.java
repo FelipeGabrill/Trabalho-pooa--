@@ -2,11 +2,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class UsuarioList implements Persistencia<Usuario> {
+public class UsuarioList implements Persistencia<Usuario>,  PersistenciaUsuario<Usuario> {
 
 	private List<Usuario> usuarios = new ArrayList<>();
 	private int count = 1;
 
+	@Override
 	public Usuario validarLogin(String username, String password) {
 	    for (Usuario usuario : usuarios) {
 	        if (usuario.getUsername().equals(username) && usuario.getPassword().equals(password)) {
@@ -45,6 +46,7 @@ public class UsuarioList implements Persistencia<Usuario> {
 		return usuarios.removeIf(usuario -> usuario.getId() == id);
 	}
 	
+	@Override
 	public void atualizarSenha(int id, String novaSenha) {
         for (Usuario usuario : usuarios) {
             if (usuario.getId() == id) {

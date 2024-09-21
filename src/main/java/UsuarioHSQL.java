@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioHSQL implements Persistencia<Usuario> {
+public class UsuarioHSQL implements Persistencia<Usuario>, PersistenciaUsuario<Usuario> {
 
 	// memoria
 	private static final String DB_URL = "jdbc:hsqldb:mem:conteudoDB";
@@ -98,7 +98,7 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
 		}
 	}
 
-	public void atualizarSenha(Integer id, String password) {
+	public void atualizarSenha(int id, String password) {
 		String sql = "UPDATE Usuario SET password = ? WHERE id = ?";
 
 		try {
@@ -127,7 +127,7 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
 		return delete;
 	}
 
-	public Usuario encontrarPorCredenciais(String username, String password) {
+	public Usuario validarLogin(String username, String password) {
 		Usuario usuario = null;
 
 		String sql = "SELECT * FROM Usuario WHERE username = ? AND password = ?";
@@ -152,5 +152,4 @@ public class UsuarioHSQL implements Persistencia<Usuario> {
 
 		return usuario;
 	}
-
 }
