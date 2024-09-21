@@ -26,7 +26,6 @@ Para utilizar esta forma de persistência, as seguintes linhas devem ser utiliza
   private ConteudoService conteudoPersistir = new ConteudoService(new ConteudoHSQL());
   // private UsuarioList usuarioPersistir = new UsuarioList();
   // private ConteudoList conteudoPersistir = new ConteudoList();
-}
 ```
 
 Memória (In-Memory):
@@ -39,7 +38,6 @@ Para utilizar esta forma de persistência, as seguintes linhas devem ser utiliza
   //private ConteudoService conteudoPersistir = new ConteudoService(new ConteudoHSQL());
   private UsuarioList usuarioPersistir = new UsuarioList();
   private ConteudoList conteudoPersistir = new ConteudoList();
-}
 ```
 
 ### Métodos Principais
