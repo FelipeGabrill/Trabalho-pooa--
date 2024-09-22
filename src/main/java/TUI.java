@@ -105,7 +105,10 @@ public class TUI extends UI {
 				alterarUsuario(currentUser);
 				break;
 			case "8":
-				exclirUsuario(currentUser);
+				boolean excluiuCurrentUser = exclirUsuario(currentUser);
+				if (excluiuCurrentUser) {
+					return currentUser = null;
+				}
 				break;
 			case "9":
 				alterarSenhaUsuario(currentUser);
@@ -170,15 +173,20 @@ public class TUI extends UI {
 		System.out.println("Usuario Atualizado.");
 	}
 
-	private void exclirUsuario(Usuario currentUser) {
+	private boolean exclirUsuario(Usuario currentUser) {
 		listaUsuario();
 		String ids = lerInfo("Digite o ID do usuario para editar");
 		int id = Integer.parseInt(ids);
 		boolean removido = usuarioPersistir.remover(id);
 		if (removido) {
-			System.out.println("Conteudo excluido.");
+			System.out.println("Usuario excluido.");
+			if (id == currentUser.getId()) {
+				return true;
+			}
+			return false;
 		} else {
-			System.out.println("Conteudo não encontrado.");
+			System.out.println("Usuario não encontrado.");
+			return false;
 		}
 	}
 
